@@ -19,7 +19,7 @@ for i = 1:length(params)
     p_adam{i,2} = zeros(size(params{i}));
 end
 
-X = zeros(1,20);
+X = zeros(1,19);
 Y = X;
 
 prob_total = 0;
