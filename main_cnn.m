@@ -2,7 +2,7 @@ close all;
 clc;
 %choose batch size and number of epochs for training
 batch_size = 32;
-epochs = 1;
+epochs = 2;
 
 %choose parameters for adam
 beta1 = 0.95;
@@ -19,8 +19,8 @@ for i = 1:length(params)
     p_adam{i,2} = zeros(size(params{i}));
 end
 
-X = zeros(1,19);
-Y = X;
+X = 0;
+Y = 0;
 
 prob_total = 0;
 batch_total = 0;
@@ -50,7 +50,7 @@ t = t+1;
 prob_total = prob_total + probs;
 batch_total = batch_total + batch_size;
 
-if mod((i-1)/batch_size,100) == 0
+if mod((i-1)/batch_size,20) == 0
     num = (i - 1)/batch_size;
     
     % 正解率計算
@@ -63,15 +63,20 @@ if mod((i-1)/batch_size,100) == 0
     disp(['training accuracy: ',num2str(pc_mean),'%.']);
     disp([num2str(num) ' iterations. Loss: ' num2str(L)]);
     
+    
     index = int16(num / 100 + 1);
-    X(index) = num;
-    Y(index) = pc_mean;
+    X = [X num];
+    Y = [Y pc_mean];
+    
+    %hold on;
+    figure(1);
+    plot (X,Y);
+    title('MNIST Training Accuracy');
+    xlabel('iterations');
+    ylabel('accuracy[%]');
+    drawnow
+    %hold off;
 end
 end
 end
 
-
-plot (X,Y);
-title('MNIST Training Accuracy');
-xlabel('iterations');
-ylabel('accuracy[%]');
