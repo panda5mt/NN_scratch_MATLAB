@@ -1,16 +1,35 @@
 close all;
 clc;
 %choose batch size and number of epochs for training
-batch_size = 32;
+batch_size = 25;
 epochs = 5;
 
 %choose parameters for adam
 beta1 = 0.95;
 beta2 = 0.99;
-lr = 0.0001; %learning rate
+lr = 0.00001; %learning rate
 eps = 1e-8;
 t = 0;
-load 'mnist.mat';
+
+%% Load MNIST
+%load 'mnist.mat';
+%% Load MNIST END
+
+%% Load CIFAR-10
+load './cifar-10-batches-mat/data_batch_1.mat'
+XTrain = uint8(zeros(size(data,1), 32, 32, 3)); % N H W C
+YTrain = labels;
+for i=1:size(data,1)
+   data_in = data(i,:);
+   dataColor = reshape(data_in,[32, 32, 3]);
+   XTrain(i,:,:,:) = dataColor;
+end
+XTrain = permute(XTrain, [2 3 4 1]);
+
+%% Load CIFAR-10 END
+
+
+
 params = init_param(); % initialize weights
 
 p_adam = cell(length(params),2); %initialize adam algorithm
@@ -42,7 +61,6 @@ for i = 1:batch_size:size(XTrain,4)
     
 t = t+1;
 
-
 [L, grads,params, probs] = net_grad(params, im, lab); %calculate net output and gradients
 [params, p_adam] = adam(params, grads,beta1, beta2,t,p_adam, lr, eps); %train using adam
 
@@ -72,7 +90,7 @@ if mod((i-1)/batch_size,20) == 0
     %hold on;
     figure(1);
     plot (X,Y);
-    title('MNIST Training Accuracy');
+    title('CIFAR-10 Training Accuracy');
     xlabel('iterations');
     ylabel('accuracy[%]');
     drawnow

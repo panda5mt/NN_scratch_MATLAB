@@ -20,9 +20,9 @@ classdef my_affine
             end
         end
             
-        function [obj, out] = forward(obj, x)
-            
-            obj.x = x;
+        function [obj, out] = forward(obj, x)            
+
+            obj.x = x;            
             out = obj.W * obj.x + obj.b;
             
         end
