@@ -2,12 +2,12 @@ close all;
 clc;
 %choose batch size and number of epochs for training
 batch_size = 32;
-epochs = 2;
+epochs = 5;
 
 %choose parameters for adam
 beta1 = 0.95;
 beta2 = 0.99;
-lr = 0.001; %learning rate
+lr = 0.0001; %learning rate
 eps = 1e-8;
 t = 0;
 load 'mnist.mat';
@@ -65,7 +65,8 @@ if mod((i-1)/batch_size,20) == 0
     
     
     index = int16(num / 100 + 1);
-    X = [X num];
+    X_val = num + int16(size(XTrain,4)/batch_size * (j-1));
+    X = [X X_val];
     Y = [Y pc_mean];
     
     %hold on;
