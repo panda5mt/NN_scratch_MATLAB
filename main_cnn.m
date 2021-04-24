@@ -1,13 +1,13 @@
 close all;
 clc;
 %choose batch size and number of epochs for training
-batch_size = 25;
-epochs = 5;
+batch_size = 50;
+epochs = 1000;
 
 %choose parameters for adam
 beta1 = 0.95;
 beta2 = 0.99;
-lr = 0.00001; %learning rate
+lr = 0.0001; %learning rate
 eps = 1e-8;
 t = 0;
 
@@ -24,11 +24,9 @@ for i=1:size(data,1)
    dataColor = reshape(data_in,[32, 32, 3]);
    XTrain(i,:,:,:) = dataColor;
 end
-XTrain = permute(XTrain, [2 3 4 1]);
+XTrain = permute(XTrain, [2 3 4 1]); % H W C N
 
 %% Load CIFAR-10 END
-
-
 
 params = init_param(); % initialize weights
 
@@ -45,9 +43,15 @@ prob_total = 0;
 batch_total = 0;
 
 for j = 1:epochs
-sh_i = randperm(size(XTrain,4)); %shuffle training data
-XTrain = double(XTrain(:,:,:,sh_i));
-YTrain = double(YTrain(sh_i));
+    %% epoch数が進行するにつれて学習率を減らしていく
+    lr = lr / (1.01^(j))
+    
+    if lr < 9e-9 
+        lr = 9e-9;
+    end
+    sh_i = randperm(size(XTrain,4)); %shuffle training data
+    XTrain = double(XTrain(:,:,:,sh_i));
+    YTrain = double(YTrain(sh_i));
 
 for i = 1:batch_size:size(XTrain,4)
     im = XTrain(:,:,:,i:i+batch_size-1);
