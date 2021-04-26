@@ -21,7 +21,8 @@ classdef my_affine
         end
             
         function [obj, out] = forward(obj, x)            
-
+%             size(x)
+%             size(obj.W)
             obj.x = x;            
             out = obj.W * obj.x + obj.b;
             

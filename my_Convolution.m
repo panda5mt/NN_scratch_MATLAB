@@ -51,6 +51,8 @@ classdef my_Convolution
             end
             end
             end
+%             size(C)
+%             size(obj.b)
             C = C + obj.b;
             out = C;
             obj.out = C;
