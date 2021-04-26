@@ -1,12 +1,12 @@
 function params = init_param()
 
-W1 = 1/sqrt(3*3*2)*randn(3, 3, 3, 8); %FH,FW,C,FN
-b1 = zeros(1,1,8);
-W2 = 1/sqrt(3*3*2)*randn(3, 3, 8, 3);
+W1 = 1/sqrt(3*3*2)*randn(3, 3, 3, 16); %FH,FW,C,FN
+b1 = zeros(1,1,16);
+W2 = 1/sqrt(3*3*2)*randn(3, 3, 16, 3);
 b2 = 0;
-W3 = 1/sqrt(3*3*1)*randn(3, 3, 1, 16);
+W3 = 1/sqrt(3*3*1)*randn(3, 3, 1, 32);
 b3 = 0;
-W4 = 1/sqrt(128*10000)*randn(128,10000);
+W4 = 1/sqrt(128*20000)*randn(128,20000);
 b4 = zeros(128, 1);
 W5 = 1/sqrt(10*128)*randn(10,128);
 b5 = zeros(10,1);
